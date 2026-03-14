@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRAIIN — Industries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --void: #f0f6ff; --deep: #e2ecfa; --panel: #ffffff; --surface: #f7fbff;
+  --border: rgba(0,120,190,0.14); --border-hot: rgba(0,100,180,0.45);
+  --cyan: #0066bb; --cyan-dim: rgba(0,102,187,0.65); --cyan-glow: rgba(0,102,187,0.12);
+  --electric: #0099aa; --white: #0a1628; --text: rgba(10,22,48,0.90);
+  --text-dim: rgba(10,22,48,0.58); --text-muted: rgba(10,22,48,0.38);
+  --f-display: 'Orbitron', monospace; --f-body: 'Rajdhani', sans-serif; --f-mono: 'Share Tech Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--f-body); background: var(--void); color: var(--text); overflow-x: hidden; cursor: none; }
+.cursor-dot { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+.cursor-ring { position: fixed; top: 0; left: 0; z-index: 9998; pointer-events: none; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--cyan-dim); transform: translate(-50%,-50%); transition: transform .18s cubic-bezier(.25,.46,.45,.94), width .25s, height .25s; }
+.grid-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.grid-bg::before { content: ''; position: absolute; inset: -50%; background-image: linear-gradient(rgba(0,100,180,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,100,180,0.06) 1px, transparent 1px); background-size: 60px 60px; animation: gridDrift 25s linear infinite; }
+.grid-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 40% at 50% 0%, rgba(0,100,180,0.10) 0%, transparent 70%); }
+@keyframes gridDrift { from{transform:translate(0,0);} to{transform:translate(60px,60px);} }
+.ticker-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 28px; background: rgba(0,100,180,0.07); border-bottom: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; }
+.ticker-inner { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+.ticker-item { font-family: var(--f-mono); font-size: .65rem; color: var(--cyan-dim); padding: 0 2.5rem; display: flex; align-items: center; }
+.ticker-item::after { content: '//'; color: var(--border-hot); margin-left: .8rem; }
+@keyframes ticker { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+nav { position: fixed; top: 28px; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 4%; height: 68px; background: rgba(235,245,255,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,100,180,0.15); box-shadow: 0 2px 20px rgba(0,80,160,0.08); }
+nav::after { content: ''; position: absolute; bottom: 0; left: 5%; right: 5%; height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: .5; }
+.nav-logo { font-family: var(--f-display); font-size: 1.15rem; font-weight: 900; color: #0a1628; text-decoration: none; letter-spacing: .15em; display: flex; align-items: center; gap: .6rem; position: relative; }
+.nav-logo .logo-bracket { color: var(--cyan); font-size: .8em; opacity: .85; }
+.nav-logo::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 1px; background: linear-gradient(90deg, var(--cyan), transparent); opacity: .5; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-family: var(--f-body); font-size: .85rem; font-weight: 700; color: #0a1e3c; text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--cyan); transition: width .3s; }
+.nav-links a:hover, .nav-links a.active { color: var(--cyan); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+.nav-cta { font-family: var(--f-body); font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); text-decoration: none; padding: .55rem 1.4rem; border: 1px solid var(--border-hot); position: relative; overflow: hidden; transition: color .3s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+.nav-cta::before { content: ''; position: absolute; inset: 0; background: var(--cyan); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+.nav-cta:hover { color: #fff; } .nav-cta:hover::before { transform: scaleX(1); }
+.nav-cta span { position: relative; z-index: 1; }
+
+.page-hero { padding: 160px 5% 80px; position: relative; z-index: 2; }
+.page-breadcrumb { font-family: var(--f-mono); font-size: .65rem; color: var(--text-muted); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
+.page-breadcrumb a { color: var(--cyan); text-decoration: none; }
+.page-tag { font-family: var(--f-mono); font-size: .65rem; letter-spacing: .18em; color: var(--cyan); text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: .7rem; }
+.page-tag::before { content: ''; width: 24px; height: 1px; background: var(--cyan); }
+.page-h1 { font-family: var(--f-display); font-size: clamp(2rem, 4.5vw, 3.8rem); font-weight: 900; color: #0a1628; line-height: 1.1; letter-spacing: .02em; margin-bottom: 1.2rem; }
+.page-h1 em { font-style: normal; background: linear-gradient(90deg, var(--cyan), var(--electric)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-lead { font-size: 1.1rem; line-height: 1.8; color: var(--text-dim); max-width: 600px; }
+.hr-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan) 40%, var(--electric) 60%, transparent); opacity: .2; }
+
+.section-wrap { padding: 80px 5% 60px; position: relative; z-index: 2; }
+.section-h2 { font-family: var(--f-display); font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 800; color: #0a1628; margin-bottom: .7rem; letter-spacing: .02em; }
+.section-h2 em { font-style: normal; background: linear-gradient(90deg, var(--cyan), var(--electric)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.section-sub { font-size: .95rem; color: var(--text-dim); max-width: 540px; line-height: 1.8; margin-bottom: 3rem; }
+
+/* INDUSTRY PANELS */
+.industry-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); background: var(--panel); overflow: hidden; margin-bottom: 1.5rem; transition: border-color .3s; position: relative; }
+.industry-panel::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--cyan), var(--electric)); opacity: 0; transition: opacity .3s; }
+.industry-panel:hover { border-color: var(--border-hot); box-shadow: 0 12px 40px rgba(0,100,180,0.10); }
+.industry-panel:hover::before { opacity: 1; }
+.industry-panel.reverse { direction: rtl; }
+.industry-panel.reverse > * { direction: ltr; }
+.ind-visual { height: 320px; background: var(--deep); display: flex; align-items: center; justify-content: center; font-size: 6rem; position: relative; overflow: hidden; }
+.ind-visual::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,100,180,0.12), transparent 70%); }
+.ind-content { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+.ind-tag { font-family: var(--f-mono); font-size: .65rem; letter-spacing: .15em; color: var(--cyan); text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
+.ind-tag::before { content: '[ '; color: var(--text-muted); }
+.ind-tag::after  { content: ' ]'; color: var(--text-muted); }
+.ind-content h2 { font-family: var(--f-display); font-size: 1.4rem; font-weight: 800; color: #0a1628; margin-bottom: .9rem; letter-spacing: .04em; }
+.ind-content p { font-size: .92rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 1.2rem; }
+.ind-stats { display: flex; gap: 1.5rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+.ind-stat { text-align: left; }
+.ind-stat-num { font-family: var(--f-display); font-size: 1.5rem; font-weight: 900; color: var(--cyan); line-height: 1; }
+.ind-stat-label { font-family: var(--f-mono); font-size: .6rem; color: var(--text-muted); letter-spacing: .08em; text-transform: uppercase; margin-top: .2rem; }
+.ind-features { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.ind-features li { font-size: .88rem; color: var(--text-dim); display: flex; align-items: center; gap: .6rem; }
+.ind-features li::before { content: '▸'; color: var(--cyan); font-size: .65rem; }
+
+/* STATS BAR */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 60px 5%; position: relative; z-index: 2; }
+.stat-block { background: var(--panel); padding: 2.2rem 1.8rem; text-align: center; transition: background .3s; }
+.stat-block:hover { background: rgba(0,100,180,0.04); }
+.stat-block-num { font-family: var(--f-display); font-size: 2.4rem; font-weight: 900; color: #0a1628; line-height: 1; }
+.stat-block-num em { font-style: normal; color: var(--cyan); }
+.stat-block-label { font-family: var(--f-mono); font-size: .62rem; color: var(--cyan-dim); letter-spacing: .12em; text-transform: uppercase; margin-top: .4rem; }
+.stat-block-desc { font-size: .82rem; color: var(--text-muted); line-height: 1.5; margin-top: .5rem; }
+
+.btn-primary { font-family: var(--f-body); font-size: .88rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fff; text-decoration: none; background: linear-gradient(135deg, var(--cyan), var(--electric)); padding: .85rem 2.2rem; clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); transition: all .3s; box-shadow: 0 4px 24px rgba(0,100,180,0.35); display: inline-block; margin: 0 .5rem; }
+.btn-primary:hover { box-shadow: 0 6px 36px rgba(0,100,180,0.55); transform: translateY(-2px); }
+.btn-ghost { font-family: var(--f-body); font-size: .88rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--cyan); text-decoration: none; padding: .85rem 2.2rem; border: 1px solid var(--border-hot); clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%); background: transparent; transition: all .3s; display: inline-block; margin: 0 .5rem; }
+.btn-ghost:hover { background: rgba(0,100,180,0.08); transform: translateY(-2px); }
+.page-cta { background: var(--deep); padding: 80px 5%; text-align: center; position: relative; overflow: hidden; }
+.page-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(0,100,180,0.09), transparent 65%); pointer-events: none; }
+.page-cta::after { content: ''; position: absolute; inset: 30px; border: 1px solid var(--border); pointer-events: none; }
+.page-cta-inner { position: relative; z-index: 1; }
+.page-cta h2 { font-family: var(--f-display); font-size: clamp(1.6rem, 3vw, 2.6rem); font-weight: 900; color: #0a1628; margin-bottom: .9rem; }
+.page-cta h2 em { font-style: normal; background: linear-gradient(90deg, var(--cyan), var(--electric)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-cta p { font-size: 1rem; color: var(--text-dim); max-width: 460px; margin: 0 auto 2rem; line-height: 1.8; }
+footer { background: var(--void); border-top: 1px solid var(--border); padding: 60px 5% 30px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.footer-logo { font-family: var(--f-display); font-size: 1.1rem; font-weight: 900; color: #0a1628; text-decoration: none; letter-spacing: .15em; display: block; margin-bottom: .8rem; }
+.footer-logo em { font-style: normal; color: var(--cyan); }
+.footer-about { font-size: .87rem; line-height: 1.75; color: var(--text-muted); max-width: 280px; }
+.footer-h { font-family: var(--f-mono); font-size: .62rem; letter-spacing: .14em; color: var(--cyan-dim); text-transform: uppercase; margin-bottom: 1.1rem; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+.footer-links a { font-size: .87rem; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--cyan); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 1.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-family: var(--f-mono); font-size: .65rem; color: var(--text-muted); }
+.footer-legal { display: flex; gap: 1.5rem; }
+.footer-legal a { font-family: var(--f-mono); font-size: .65rem; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+.footer-legal a:hover { color: var(--cyan); }
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+@media(max-width:960px){ .industry-panel,.industry-panel.reverse{grid-template-columns:1fr;direction:ltr;} .ind-visual{height:200px;} .stats-bar{grid-template-columns:1fr 1fr;} .footer-grid{grid-template-columns:1fr 1fr;} }
+@media(max-width:600px){ .stats-bar{grid-template-columns:1fr;} .footer-grid{grid-template-columns:1fr;} .nav-links{display:none;} }
+</style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="grid-bg"></div>
+<div class="ticker-wrap"><div class="ticker-inner">
+  <span class="ticker-item">INDUSTRIES SERVED: GLOBAL</span><span class="ticker-item">ENTERPRISE SOLUTIONS</span><span class="ticker-item">GOVERNMENT READY</span><span class="ticker-item">CROSS-SECTOR AI</span><span class="ticker-item">REAL-WORLD DEPLOYMENTS</span>
+  <span class="ticker-item">INDUSTRIES SERVED: GLOBAL</span><span class="ticker-item">ENTERPRISE SOLUTIONS</span><span class="ticker-item">GOVERNMENT READY</span><span class="ticker-item">CROSS-SECTOR AI</span><span class="ticker-item">REAL-WORLD DEPLOYMENTS</span>
+</div></div>
+
+<nav>
+  <a href="braiin-futuristic.html" class="nav-logo"><span class="logo-bracket">[</span>BRA<span style="color:var(--cyan)">II</span>N<span class="logo-bracket">]</span></a>
+  <ul class="nav-links">
+    <li><a href="solutions.html">Solutions</a></li>
+    <li><a href="industries.html" class="active">Industries</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="why-braiin.html">Why BRAIIN</a></li>
+  </ul>
+  <a href="why-braiin.html#contact" class="nav-cta"><span>Speak with Our Team →</span></a>
+</nav>
+
+<div class="page-hero">
+  <div class="page-breadcrumb"><a href="braiin-futuristic.html">Home</a><span>/</span>Industries</div>
+  <div class="page-tag">Sector Specialisation</div>
+  <h1 class="page-h1">Transforming Industries with <em>Applied AI</em></h1>
+  <p class="page-lead">From precision farming to smart buildings and intelligent customer engagement — BRAIIN's platforms are engineered for the real-world demands of each sector we serve.</p>
+</div>
+<div class="hr-glow"></div>
+
+<div class="stats-bar reveal">
+  <div class="stat-block"><div class="stat-block-num">6<em>+</em></div><div class="stat-block-label">Industries Served</div><div class="stat-block-desc">Spanning enterprise, government, agri, proptech and more</div></div>
+  <div class="stat-block"><div class="stat-block-num">100<em>+</em></div><div class="stat-block-label">Enterprise Clients</div><div class="stat-block-desc">Organisations deploying BRAIIN platforms at scale</div></div>
+  <div class="stat-block"><div class="stat-block-num">12</div><div class="stat-block-label">Countries Active</div><div class="stat-block-desc">Operational deployments across four continents</div></div>
+  <div class="stat-block"><div class="stat-block-num">99<em>.97%</em></div><div class="stat-block-label">Platform Uptime</div><div class="stat-block-desc">Enterprise SLA-backed availability guarantee</div></div>
+</div>
+
+<div class="section-wrap">
+  <div class="industry-panel reveal">
+    <div class="ind-visual">🤝</div>
+    <div class="ind-content">
+      <div class="ind-tag">Customer Experience</div>
+      <h2>Retail & Enterprise Services</h2>
+      <p>BRAIIN's CX platform powers AI-driven engagement for retail, telecommunications, financial services, and government organisations — reducing handle times, increasing satisfaction, and automating tier-1 support at scale.</p>
+      <div class="ind-stats">
+        <div class="ind-stat"><div class="ind-stat-num">42%</div><div class="ind-stat-label">Handle Time Reduction</div></div>
+        <div class="ind-stat"><div class="ind-stat-num">3.8×</div><div class="ind-stat-label">CSAT Improvement</div></div>
+        <div class="ind-stat"><div class="ind-stat-num">$2.4M</div><div class="ind-stat-label">Avg Annual Saving</div></div>
+      </div>
+      <ul class="ind-features">
+        <li>AI-powered omnichannel routing and response</li>
+        <li>Real-time agent assist and next-best-action</li>
+        <li>Sentiment analysis and customer health scoring</li>
+        <li>Automated tier-1 query resolution at 78%+ rate</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="industry-panel reverse reveal">
+    <div class="ind-visual">🌾</div>
+    <div class="ind-content">
+      <div class="ind-tag">Agriculture</div>
+      <h2>Precision Farming & AgriTech</h2>
+      <p>BRAIIN's agricultural intelligence platform equips farmers and agribusiness operators with autonomous drone monitoring, AI-powered yield prediction, and precision input management — delivering measurable ROI from the first season.</p>
+      <div class="ind-stats">
+        <div class="ind-stat"><div class="ind-stat-num">31%</div><div class="ind-stat-label">Chemical Reduction</div></div>
+        <div class="ind-stat"><div class="ind-stat-num">22%</div><div class="ind-stat-label">Yield Increase</div></div>
+        <div class="ind-stat"><div class="ind-stat-num">18hr</div><div class="ind-stat-label">Survey Time Saved/Week</div></div>
+      </div>
+      <ul class="ind-features">
+        <li>Multispectral NDVI crop health analysis</li>
+        <li>Autonomous precision spraying with 99.2% coverage accuracy</li>
+        <li>Soil moisture and irrigation optimisation AI</li>
+        <li>Seasonal yield forecasting with ±4% accuracy</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="industry-panel reveal">
+    <div class="ind-visual">🏢</div>
+    <div class="ind-content">
+      <div class="ind-tag">Property Technology</div>
+      <h2>Smart Buildings & PropTech</h2>
+      <p>BRAIIN's property intelligence platform transforms building management through continuous IoT monitoring, predictive maintenance algorithms, and AI-driven utility optimisation — reducing operational costs while improving tenant satisfaction scores.</p>
+      <div class="ind-stats">
+        <div class="ind-stat"><div class="ind-stat-num">28%</div><div class="ind-stat-label">Energy Cost Reduction</div></div>
+        <div class="ind-stat"><div class="ind-stat-num">4.6×</div><div class="ind-stat-label">Maintenance ROI</div></div>
+        <div class="ind-stat"><div class="ind-stat-num">94%</div><div class="ind-stat-label">Tenant Satisfaction</div></div>
+      </div>
+      <ul class="ind-features">
+        <li>24/7 building asset monitoring with instant anomaly alerts</li>
+        <li>Predictive HVAC and utility failure detection</li>
+        <li>Automated maintenance work order generation</li>
+        <li>Tenant experience portals with real-time transparency</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="page-cta">
+  <div class="page-cta-inner">
+    <h2>Your Industry. <em>Our Platform.</em></h2>
+    <p>Speak with a BRAIIN industry specialist to explore how our platform fits your specific operational challenges.</p>
+    <a href="why-braiin.html#contact" class="btn-primary">Talk to a Specialist</a>
+    <a href="solutions.html" class="btn-ghost">View All Solutions</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><a href="braiin-futuristic.html" class="footer-logo">BRA<em>II</em>N</a><p class="footer-about">Intelligent platforms that help organisations automate complex workflows and operate more efficiently.</p></div>
+    <div><div class="footer-h">// Solutions</div><ul class="footer-links"><li><a href="solutions.html">Customer Experience</a></li><li><a href="solutions.html">Agriculture</a></li><li><a href="solutions.html">Property Technology</a></li></ul></div>
+    <div><div class="footer-h">// Company</div><ul class="footer-links"><li><a href="about.html">About BRAIIN</a></li><li><a href="about.html">Careers</a></li><li><a href="about.html">Partners</a></li></ul></div>
+    <div><div class="footer-h">// Resources</div><ul class="footer-links"><li><a href="why-braiin.html">Case Studies</a></li><li><a href="why-braiin.html">White Papers</a></li><li><a href="why-braiin.html#contact">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><div class="footer-copy">© 2025 BRAIIN PTY LTD — ALL RIGHTS RESERVED</div><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+</footer>
+<script>
+const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function tick(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(tick);})();
+document.querySelectorAll('a,button,.industry-panel,.stat-block').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.style.width='12px';dot.style.height='12px';ring.style.width='52px';ring.style.height='52px';});
+  el.addEventListener('mouseleave',()=>{dot.style.width='8px';dot.style.height='8px';ring.style.width='36px';ring.style.height='36px';});
+});
+const ro=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+window.addEventListener('scroll',()=>{document.querySelector('nav').style.background=scrollY>80?'rgba(220,235,255,0.98)':'rgba(235,245,255,0.95)';});
+</script>
+</body>
+</html>
