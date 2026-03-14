@@ -34,6 +34,173 @@
   --f-mono:     'Share Tech Mono', monospace;
 }
 
+/* ── LIGHT THEME OVERRIDES ── */
+[data-theme="light"] {
+  --void:       #f0f6ff;
+  --deep:       #e2ecfa;
+  --panel:      #ffffff;
+  --surface:    #f7fbff;
+  --border:     rgba(0,140,200,0.14);
+  --border-hot: rgba(0,140,200,0.45);
+  --cyan:       #0077bb;
+  --cyan-dim:   rgba(0,119,187,0.65);
+  --cyan-glow:  rgba(0,119,187,0.12);
+  --electric:   #0099aa;
+  --electric-dim: rgba(0,153,170,0.5);
+  --white:      #0d1a2e;
+  --text:       rgba(10,25,50,0.88);
+  --text-dim:   rgba(10,25,50,0.55);
+  --text-muted: rgba(10,25,50,0.35);
+}
+
+/* Smooth global transition for theme swap */
+*, *::before, *::after {
+  transition-property: background, background-color, border-color, color, box-shadow, opacity;
+  transition-duration: .4s;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+}
+/* but keep interaction transitions snappy */
+button, .tech-card, .adv-card, .num-card, .sol-card,
+.nav-cta, .btn-primary, .btn-ghost, .theme-toggle { transition: none; }
+
+/* ── THEME TOGGLE BUTTON ── */
+.theme-toggle {
+  position: relative;
+  width: 62px; height: 30px;
+  background: var(--panel);
+  border: 1px solid var(--border-hot);
+  border-radius: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  overflow: hidden;
+  outline: none;
+  padding: 0;
+  transition: box-shadow .25s, border-color .25s !important;
+}
+.theme-toggle:hover {
+  box-shadow: 0 0 18px var(--cyan-glow);
+  border-color: var(--cyan);
+}
+/* sliding pill */
+.toggle-track {
+  position: absolute; inset: 3px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+.toggle-icon-dark,
+.toggle-icon-light {
+  font-size: .75rem; line-height: 1;
+  transition: opacity .3s, transform .3s !important;
+  pointer-events: none; user-select: none;
+}
+.toggle-icon-dark  { opacity: 1;  transform: scale(1);   }
+.toggle-icon-light { opacity: .4; transform: scale(.85); }
+
+[data-theme="light"] .toggle-icon-dark  { opacity: .4; transform: scale(.85); }
+[data-theme="light"] .toggle-icon-light { opacity: 1;  transform: scale(1);   }
+
+.toggle-pill {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 24px; height: 24px;
+  background: linear-gradient(135deg, var(--cyan), var(--electric));
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .4s !important;
+  box-shadow: 0 0 12px var(--cyan-glow);
+}
+[data-theme="light"] .toggle-pill {
+  transform: translateX(32px);
+}
+
+/* Light theme – adjust background layers */
+[data-theme="light"] .grid-bg::before {
+  background-image:
+    linear-gradient(rgba(0,140,200,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,140,200,0.06) 1px, transparent 1px);
+}
+[data-theme="light"] .grid-bg::after {
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(0,140,200,0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 30% 50% at 100% 50%, rgba(0,153,170,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 0% 80%, rgba(0,140,200,0.07) 0%, transparent 60%);
+}
+[data-theme="light"] .scanline { display: none; }
+[data-theme="light"] body { background: var(--void); color: var(--text); cursor: none; }
+[data-theme="light"] nav {
+  background: rgba(240,246,255,0.9);
+  border-bottom-color: rgba(0,140,200,0.14);
+}
+[data-theme="light"] .ticker-wrap { background: rgba(0,140,200,0.06); }
+[data-theme="light"] .tech-section { background: var(--deep); }
+[data-theme="light"] .solutions-section { background: var(--void); }
+[data-theme="light"] .numbers-section { background: var(--deep); }
+[data-theme="light"] .advantage-section { background: var(--void); }
+[data-theme="light"] .cta-section { background: var(--deep); }
+[data-theme="light"] footer { background: var(--void); }
+[data-theme="light"] .hero-stats { background: rgba(255,255,255,0.8); }
+[data-theme="light"] .num-big { text-shadow: 0 0 20px rgba(0,119,187,0.25); }
+[data-theme="light"] .hero h1 { text-shadow: 0 0 40px rgba(0,119,187,0.15); color: var(--white); -webkit-text-fill-color: var(--white); }
+[data-theme="light"] .hero h1 .line-accent2 { color: var(--white); -webkit-text-fill-color: var(--white); }
+[data-theme="light"] .tech-card:hover { background: rgba(0,140,200,0.05); }
+[data-theme="light"] .adv-card:hover  { background: rgba(0,140,200,0.05); border-color: var(--border-hot); }
+[data-theme="light"] .num-card:hover  { background: rgba(0,140,200,0.05); }
+[data-theme="light"] .sol-card:hover  { border-color: var(--border-hot); }
+[data-theme="light"] .cursor-dot { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+[data-theme="light"] .cursor-ring { border-color: var(--cyan-dim); }
+
+/* Light mode label in ticker */
+[data-theme="light"] .ticker-item { color: var(--cyan-dim); }
+
+/* ── LIGHT THEME: NAV FULL FIX ── */
+html[data-theme="light"] nav {
+  background: #ddeeff !important;
+  border-bottom: 1px solid rgba(0,100,180,0.2) !important;
+  box-shadow: 0 2px 16px rgba(0,80,160,0.12) !important;
+}
+html[data-theme="light"] nav::after {
+  background: linear-gradient(90deg, transparent, #0077bb, transparent) !important;
+  opacity: 0.5 !important;
+}
+html[data-theme="light"] .nav-logo {
+  color: #0a1628 !important;
+  -webkit-text-fill-color: #0a1628 !important;
+}
+html[data-theme="light"] .nav-logo .logo-bracket {
+  color: #0066bb !important;
+  opacity: 1 !important;
+}
+/* The inline style on the II span */
+html[data-theme="light"] .nav-logo span {
+  color: #0066bb !important;
+}
+html[data-theme="light"] .nav-links a {
+  color: #0a1e3c !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #0a1e3c !important;
+}
+html[data-theme="light"] .nav-links a:hover {
+  color: #0055aa !important;
+  -webkit-text-fill-color: #0055aa !important;
+}
+html[data-theme="light"] .nav-links a::after {
+  background: #0055aa !important;
+}
+html[data-theme="light"] .nav-cta {
+  color: #0055aa !important;
+  border-color: rgba(0,85,170,0.55) !important;
+}
+html[data-theme="light"] .nav-cta:hover {
+  color: #ffffff !important;
+}
+html[data-theme="light"] .nav-cta::before {
+  background: #0055aa !important;
+}
+
+/* Pulse indicator color */
+[data-theme="light"] .badge-dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--f-body);
@@ -780,7 +947,16 @@ footer {
     <li><a href="#numbers">About</a></li>
     <li><a href="#contact">Why BRAIIN</a></li>
   </ul>
-  <a href="#contact" class="nav-cta"><span>Speak with Our Team →</span></a>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Switch theme">
+      <div class="toggle-track">
+        <span class="toggle-icon-dark">🌙</span>
+        <span class="toggle-icon-light">☀️</span>
+      </div>
+      <div class="toggle-pill" id="togglePill"></div>
+    </button>
+    <a href="#contact" class="nav-cta"><span>Speak with Our Team →</span></a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1407,7 +1583,39 @@ numBigs.forEach(n=>numObs.observe(n));
   frame();
 })();
 
-/* ── NAVBAR SCROLL ── */
+/* ── THEME TOGGLE ── */
+const toggleBtn = document.getElementById('themeToggle');
+const html = document.documentElement;
+
+// Load saved preference
+const saved = localStorage.getItem('braiin-theme') || 'dark';
+if (saved === 'light') html.setAttribute('data-theme', 'light');
+
+toggleBtn.addEventListener('click', () => {
+  const isLight = html.getAttribute('data-theme') === 'light';
+  const next = isLight ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('braiin-theme', next);
+
+  // Glitch flash effect on toggle
+  const flash = document.createElement('div');
+  flash.style.cssText = `
+    position:fixed;inset:0;z-index:9997;pointer-events:none;
+    background:${next === 'light'
+      ? 'rgba(0,140,200,0.06)'
+      : 'rgba(0,200,255,0.06)'};
+    animation:flashOut .4s ease forwards;
+  `;
+  if (!document.getElementById('flashStyle')) {
+    const st = document.createElement('style');
+    st.id = 'flashStyle';
+    st.textContent = '@keyframes flashOut{from{opacity:1}to{opacity:0}}';
+    document.head.appendChild(st);
+  }
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 420);
+});
+
 window.addEventListener('scroll',()=>{
   const nav=document.querySelector('nav');
   nav.style.background=window.scrollY>80?'rgba(2,5,16,0.95)':'rgba(4,13,30,0.85)';
